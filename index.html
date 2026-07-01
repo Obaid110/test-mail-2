@@ -1,0 +1,36 @@
+<form id="newsForm">
+  <h3>Join Newsletter</h3>
+  <input type="email" id="subscriber" placeholder="Enter your email" required>
+  <button type="submit">Subscribe</button>
+  <p id="msg"></p>
+</form>
+
+<style>
+  form { max-width: 320px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
+  input, button { width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; }
+  button { background: #111827; color: white; border: 0; border-radius: 8px; }
+</style>
+
+<script>
+document.getElementById("newsForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const subscriber = document.getElementById("subscriber").value;
+
+  const res = await fetch("https://mailtree.vercel.app/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "YOUR_API_KEY"
+    },
+    body: JSON.stringify({
+      to: "motech508@gmail.com",
+      subject: "New Newsletter Subscriber",
+      text: `New subscriber: ${subscriber}`
+    })
+  });
+
+  const data = await res.json();
+  document.getElementById("msg").innerText = data.message;
+});
+</script>
