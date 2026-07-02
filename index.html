@@ -26,15 +26,16 @@ document.getElementById("newsForm").addEventListener("submit", async (e) => {
       body: JSON.stringify({
         to: "motech508@gmail.com",
         subject: "New Newsletter Subscriber",
-        text: `New subscriber: ${subscriber}`
+        text: "New subscriber: " + subscriber
       })
     });
 
-    const data = await res.text();
+    const data = await res.text(); // safe
     document.getElementById("msg").innerText = data;
 
   } catch (err) {
-    document.getElementById("msg").innerText = "Error sending request";
+    console.log(err);
+    document.getElementById("msg").innerText = "Request failed";
   }
 });
 </script>
