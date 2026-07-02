@@ -21,8 +21,7 @@ document.getElementById("newsForm").addEventListener("submit", async (e) => {
     const res = await fetch("https://mailtree.vercel.app/send", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "YOUR_API_KEY"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         to: "motech508@gmail.com",
@@ -31,14 +30,11 @@ document.getElementById("newsForm").addEventListener("submit", async (e) => {
       })
     });
 
-    // ✅ SAFE: text use karo (JSON crash avoid)
     const data = await res.text();
-
     document.getElementById("msg").innerText = data;
 
   } catch (err) {
-    console.error(err);
-    document.getElementById("msg").innerText = "Request failed";
+    document.getElementById("msg").innerText = "Error sending request";
   }
 });
 </script>
