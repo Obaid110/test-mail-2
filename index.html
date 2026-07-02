@@ -17,20 +17,28 @@ document.getElementById("newsForm").addEventListener("submit", async (e) => {
 
   const subscriber = document.getElementById("subscriber").value;
 
-  const res = await fetch("https://mailtree.vercel.app/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "d220ec5b0ca35b2c83a87faa16ac7d1eac79cc72cbc107d48805259aea82d2d9"
-    },
-    body: JSON.stringify({
-      to: "motech508@gmail.com",
-      subject: "New Newsletter Subscriber",
-      text: `New subscriber: ${subscriber}`
-    })
-  });
+  try {
+    const res = await fetch("https://mailtree.vercel.app/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "YOUR_API_KEY"
+      },
+      body: JSON.stringify({
+        to: "motech508@gmail.com",
+        subject: "New Newsletter Subscriber",
+        text: `New subscriber: ${subscriber}`
+      })
+    });
 
-  const data = await res.json();
-  document.getElementById("msg").innerText = data.message;
+    // ✅ SAFE: text use karo (JSON crash avoid)
+    const data = await res.text();
+
+    document.getElementById("msg").innerText = data;
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("msg").innerText = "Request failed";
+  }
 });
 </script>
