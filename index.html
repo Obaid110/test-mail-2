@@ -1,131 +1,157 @@
-<form id="contactForm">
-    <h2>Contact Us</h2>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mailtree Test Forms</title>
+</head>
+<body>
 
-    <input type="text" id="name" placeholder="Your Name" required>
+<h1>Mailtree API Test</h1>
 
-    <input type="email" id="email" placeholder="Your Email" required>
+<hr>
 
-    <input type="text" id="subject" placeholder="Subject" required>
+<h2>Contact Form</h2>
 
-    <textarea id="message" placeholder="Write your message..." rows="6" required></textarea>
+<form class="mailtree">
+    <input name="name" placeholder="Name" required><br><br>
 
-    <button type="submit">Send Message</button>
+    <input type="email" name="email" placeholder="Email" required><br><br>
 
-    <p id="msg"></p>
+    <input name="subject" placeholder="Subject"><br><br>
+
+    <textarea name="message" placeholder="Message"></textarea><br><br>
+
+    <button>Send Contact</button>
 </form>
 
-<style>
-*{
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
+<hr>
 
-#contactForm{
-    max-width:500px;
-    margin:40px auto;
-    padding:25px;
-    border:1px solid #ddd;
-    border-radius:12px;
-    background:#fff;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
+<h2>Newsletter</h2>
 
-#contactForm h2{
-    margin-top:0;
-    text-align:center;
-}
+<form class="mailtree">
 
-#contactForm input,
-#contactForm textarea{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    outline:none;
-    font-size:15px;
-}
+    <input
+        type="email"
+        name="email"
+        placeholder="Subscriber Email"
+        required>
 
-#contactForm textarea{
-    resize:vertical;
-}
+    <br><br>
 
-#contactForm button{
-    width:100%;
-    margin-top:20px;
-    padding:13px;
-    background:#111827;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:16px;
-    transition:.3s;
-}
+    <button>Subscribe</button>
 
-#contactForm button:hover{
-    background:#000;
-}
+</form>
 
-#msg{
-    margin-top:15px;
-    text-align:center;
-    font-weight:bold;
-}
-</style>
+<hr>
+
+<h2>Login Form</h2>
+
+<form class="mailtree">
+
+    <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required>
+
+    <br><br>
+
+    <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required>
+
+    <br><br>
+
+    <button>Login</button>
+
+</form>
+
+<hr>
+
+<h2>Quote Request</h2>
+
+<form class="mailtree">
+
+    <input
+        name="company"
+        placeholder="Company Name">
+
+    <br><br>
+
+    <input
+        type="email"
+        name="email"
+        placeholder="Email">
+
+    <br><br>
+
+    <input
+        name="budget"
+        placeholder="Budget">
+
+    <br><br>
+
+    <textarea
+        name="project"
+        placeholder="Project Details"></textarea>
+
+    <br><br>
+
+    <button>Request Quote</button>
+
+</form>
 
 <script>
-const form = document.getElementById("contactForm");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.querySelectorAll(".mailtree").forEach(form=>{
 
-    const button = form.querySelector("button");
-    const msg = document.getElementById("msg");
+    form.addEventListener("submit",async(e)=>{
 
-    button.disabled = true;
-    button.innerText = "Sending...";
-    msg.innerText = "";
+        e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const subject = document.getElementById("subject").value.trim();
-    const message = document.getElementById("message").value.trim();
+        const body={};
 
-    try{
-        const res = await fetch("https://mailtree.vercel.app/send",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                to:"motech508@gmail.com",
-                subject:"Contact Form - " + subject,
-                text:
-`New Contact Form Submission
+        form.querySelectorAll("input,textarea,select").forEach(field=>{
 
-Name: ${name}
+            body[field.name]=field.value;
 
-Email: ${email}
-
-Subject: ${subject}
-
-Message:
-${message}`
-            })
         });
 
-        const data = await res.text();
+        try{
 
-        msg.innerText = data;
-        form.reset();
+            const res=await fetch("https://mailtree.vercel.app/send",{
 
-    }catch(err){
-        console.error(err);
-        msg.innerText = "Request failed.";
-    }
+                method:"POST",
 
-    button.disabled = false;
-    button.innerText = "Send Message";
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify(body)
+
+            });
+
+            alert(await res.text());
+
+            form.reset();
+
+        }
+
+        catch(err){
+
+            alert("Request Failed");
+
+            console.log(err);
+
+        }
+
+    });
+
 });
+
 </script>
+
+</body>
+</html>
