@@ -1,41 +1,131 @@
-<form id="newsForm">
-  <h3>Join Newsletter</h3>
-  <input type="email" id="subscriber" placeholder="Enter your email" required>
-  <button type="submit">Subscribe</button>
-  <p id="msg"></p>
+<form id="contactForm">
+    <h2>Contact Us</h2>
+
+    <input type="text" id="name" placeholder="Your Name" required>
+
+    <input type="email" id="email" placeholder="Your Email" required>
+
+    <input type="text" id="subject" placeholder="Subject" required>
+
+    <textarea id="message" placeholder="Write your message..." rows="6" required></textarea>
+
+    <button type="submit">Send Message</button>
+
+    <p id="msg"></p>
 </form>
 
 <style>
-  form { max-width: 320px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
-  input, button { width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; }
-  button { background: #111827; color: white; border: 0; border-radius: 8px; }
+*{
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+#contactForm{
+    max-width:500px;
+    margin:40px auto;
+    padding:25px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+#contactForm h2{
+    margin-top:0;
+    text-align:center;
+}
+
+#contactForm input,
+#contactForm textarea{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+    font-size:15px;
+}
+
+#contactForm textarea{
+    resize:vertical;
+}
+
+#contactForm button{
+    width:100%;
+    margin-top:20px;
+    padding:13px;
+    background:#111827;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+#contactForm button:hover{
+    background:#000;
+}
+
+#msg{
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
+}
 </style>
 
 <script>
-document.getElementById("newsForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+const form = document.getElementById("contactForm");
 
-  const subscriber = document.getElementById("subscriber").value;
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch("https://mailtree.vercel.app/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        to: "motech508@gmail.com",
-        subject: "New Newsletter Subscriber",
-        text: "New subscriber: " + subscriber
-      })
-    });
+    const button = form.querySelector("button");
+    const msg = document.getElementById("msg");
 
-    const data = await res.text(); // safe
-    document.getElementById("msg").innerText = data;
+    button.disabled = true;
+    button.innerText = "Sending...";
+    msg.innerText = "";
 
-  } catch (err) {
-    console.log(err);
-    document.getElementById("msg").innerText = "Request failed";
-  }
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    try{
+        const res = await fetch("https://mailtree.vercel.app/send",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                to:"motech508@gmail.com",
+                subject:"Contact Form - " + subject,
+                text:
+`New Contact Form Submission
+
+Name: ${name}
+
+Email: ${email}
+
+Subject: ${subject}
+
+Message:
+${message}`
+            })
+        });
+
+        const data = await res.text();
+
+        msg.innerText = data;
+        form.reset();
+
+    }catch(err){
+        console.error(err);
+        msg.innerText = "Request failed.";
+    }
+
+    button.disabled = false;
+    button.innerText = "Send Message";
 });
 </script>
