@@ -1,15 +1,21 @@
 <form data-mailtree-test="true">
-    <input type="text" name="host" placeholder="SMTP Host" required>
-    <input type="text" name="port" placeholder="SMTP Port" required>
+    <input type="text" name="host" placeholder="SMTP Host (e.g. smtp.gmail.com)" required>
+    <input type="number" name="port" placeholder="SMTP Port (465 / 587)" required>
     <input type="text" name="username" placeholder="SMTP Username" required>
     <input type="password" name="password" placeholder="SMTP Password" required>
 
-    <input type="text" name="name" placeholder="Name" required>
-    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="to" placeholder="Recipient Email (optional)">
+    <input type="text" name="subject" placeholder="Subject (optional)">
 
-    <textarea name="message" placeholder="Message" required></textarea>
+    <input type="text" name="name" placeholder="Full Name">
+    <input type="email" name="email" placeholder="Email Address">
 
-    <button type="submit">Send Test</button>
+    <textarea name="text" placeholder="Plain Text Message"></textarea>
+    <textarea name="html" placeholder="HTML Message (optional)"></textarea>
+
+    <textarea name="message" placeholder="Extra Message Data (optional)"></textarea>
+
+    <button type="submit">Send Test Email</button>
 </form>
 
-<script src="https://mailtree.vercel.app/mailtree.js"></script>
+<script src="https://mailtree.vercel.app/mailtree-test.js"></script>
