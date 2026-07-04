@@ -1,39 +1,13 @@
-<form id="contactForm">
-    <input type="text" id="host" placeholder="SMTP Host" required>
-    <input type="number" id="port" placeholder="Port" required>
-    <input type="text" id="username" placeholder="Username" required>
-    <input type="password" id="password" placeholder="Password" required>
+<form data-mailtree-test="true">
+    <input type="text" name="host" placeholder="SMTP Host" required>
+    <input type="text" name="port" placeholder="SMTP Port" required>
+    <input type="text" name="username" placeholder="SMTP Username" required>
+    <input type="password" name="password" placeholder="SMTP Password" required>
 
-    <input type="text" id="name" placeholder="Name">
-    <input type="email" id="email" placeholder="Email">
-    <textarea id="message" placeholder="Message"></textarea>
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+
+    <textarea name="message" placeholder="Message" required></textarea>
 
     <button type="submit">Send Test</button>
 </form>
-
-<script>
-document.getElementById("contactForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const data = {
-        host: document.getElementById("host").value,
-        port: document.getElementById("port").value,
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value,
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        message: document.getElementById("message").value
-    };
-
-    const res = await fetch("https://mailtree.vercel.app/send-test", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
-
-    const result = await res.json();
-    alert(result.message || result.error);
-});
-</script>
