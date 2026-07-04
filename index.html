@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mailtree Advanced Form</title>
+    <title>Mailtree Test Form</title>
     <style>
         body {
             font-family: Arial;
@@ -17,7 +17,7 @@
             background: #fff;
             padding: 25px;
             border-radius: 10px;
-            width: 400px;
+            width: 420px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
 
@@ -45,6 +45,12 @@
         }
 
         h3 {
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: gray;
             margin-bottom: 15px;
         }
     </style>
@@ -52,16 +58,22 @@
 <body>
 
 <form data-mailtree="true">
-    <h3>Contact / Lead Form</h3>
+    <h3>Mailtree Test Form</h3>
+    <div class="note">This form is used for testing SMTP + dynamic field handling</div>
 
-    <input type="text" name="name" placeholder="Full Name" required>
+    <!-- SMTP test fields -->
+    <input type="text" name="host" placeholder="SMTP Host (e.g. smtp.gmail.com)" required>
+    <input type="number" name="port" placeholder="Port (465 / 587)" required>
+    <input type="text" name="username" placeholder="SMTP Username" required>
+    <input type="password" name="password" placeholder="SMTP Password" required>
 
-    <input type="email" name="email" placeholder="Email Address" required>
+    <hr>
 
+    <!-- Dynamic extra fields -->
+    <input type="text" name="name" placeholder="Full Name">
+    <input type="email" name="email" placeholder="Email Address">
     <input type="text" name="phone" placeholder="Phone Number">
-
     <input type="text" name="company" placeholder="Company / Organization">
-
     <input type="text" name="subject" placeholder="Subject">
 
     <select name="service">
@@ -72,13 +84,12 @@
         <option value="support">Support</option>
     </select>
 
-    <input type="text" name="budget" placeholder="Estimated Budget">
-
+    <input type="text" name="budget" placeholder="Budget">
     <input type="text" name="country" placeholder="Country">
 
-    <textarea name="message" placeholder="Write your message..." rows="5" required></textarea>
+    <textarea name="message" placeholder="Message" rows="5"></textarea>
 
-    <button type="submit">Send Message</button>
+    <button type="submit">Send Test Email</button>
 </form>
 
 <script src="https://mailtree.vercel.app/mailtree.js"></script>
